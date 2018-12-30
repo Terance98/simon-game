@@ -1,8 +1,8 @@
 var buttonColors = ["red", "blue", "green", "yellow"];
 
 var gamePattern = [];
-
 var userClickedPattern = [];
+
 var started = true;
 var level = 1;
 var numb = 0;
@@ -12,8 +12,6 @@ $(document).on("keypress", function() {
     nextSequence();
   }
 });
-
-
 
 function nextSequence() {
   $("#level-title").text("Level " + level);
@@ -40,7 +38,6 @@ function nextSequence() {
   },1000);
 }
 
-
 $(".btn").on("click", function() {
   var userChosenColor = $(this).attr("id");
   userClickedPattern.push(userChosenColor);
@@ -58,45 +55,20 @@ $(".btn").on("click", function() {
   } else {
     playSound("wrong");
     animatePress(userChosenColor);
-    started = true;
-    level = 1;
-    gamePattern = [];
-    numb = 0;
-    $("body").addClass("game-over");
     $("#level-title").text("Game Over! Press any key to restart");
+    $("body").addClass("game-over");
+
     setTimeout(function() {
       $("body").removeClass("game-over");
     }, 200);
+
+    startOver();
   }
 });
 
-
-
-function playSound(soundColor) {
-  switch (soundColor) {
-    case "green":
-      var green = new Audio("sounds/green.mp3");
-      green.play();
-      break;
-    case "blue":
-      var blue = new Audio('sounds/blue.mp3');
-      blue.play();
-      break;
-    case "red":
-      var red = new Audio('sounds/red.mp3');
-      red.play();
-      break;
-    case "yellow":
-      var yellow = new Audio('sounds/yellow.mp3');
-      yellow.play();
-      break;
-    case "wrong":
-      var wrong = new Audio('sounds/wrong.mp3');
-      wrong.play();
-      break;
-    default:
-      console.log(soundColor);
-  }
+function playSound(name) {
+  var audio = new Audio("sounds/"+ name + ".mp3");
+  audio.play();
 }
 
 function animatePress(userChosenButtonColor) {
@@ -104,4 +76,11 @@ function animatePress(userChosenButtonColor) {
   setTimeout(function() {
     $("#" + userChosenButtonColor).removeClass("pressed");
   }, 100);
+}
+
+function startOver(){
+  started = true;
+  level = 1;
+  gamePattern = [];
+  numb = 0;
 }
